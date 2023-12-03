@@ -27,6 +27,38 @@ namespace webProgProje.Controllers
             return View();
         }
 
+        public IActionResult LoginPage()
+        {
+            if (HttpContext.Session.GetString("SessionUser") is not null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        public IActionResult Login(Kullanici usr)
+        {
+            var kullanicilar = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == usr.TC && x.Sifre == usr.Sifre);
+            if (kullanicilar != null)
+            {
+                HttpContext.Session.SetString("SessionUser", kullanicilar.Ad);
+                TempData["msj"] = "hoş geldiniz"+kullanicilar.Ad;
+                return RedirectToAction("Index");
+            }
+            TempData["hata"] = "kullanıcı adı veya şifre hatalı";
+            return RedirectToAction("LoginPage");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult SignupPage()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
