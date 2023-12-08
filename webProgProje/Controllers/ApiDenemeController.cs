@@ -30,8 +30,10 @@ namespace webProgProje.Controllers
 
         // POST api/<ApiDenemeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Kullanici k)
         {
+            _combineContext.Add(k);
+            _combineContext.SaveChanges();
         }
 
         // PUT api/<ApiDenemeController>/5

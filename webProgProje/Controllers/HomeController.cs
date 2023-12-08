@@ -54,7 +54,7 @@ namespace webProgProje.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult SignupPage()
+        public IActionResult Signup()
         {
             return View();
         }

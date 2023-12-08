@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webProgProje.Models
 {
@@ -6,6 +7,7 @@ namespace webProgProje.Models
     {
         [Key]
         [MaxLength(11)]
+        [MinLength(11)]
         public string TC { get; set; }
 
         [Required]
@@ -31,6 +33,9 @@ namespace webProgProje.Models
 
         [Required]
         public string Sifre {  get; set; }
+
+        [NotMapped]
+        public int AnadalID {  get; set; }
 
     }
 }
