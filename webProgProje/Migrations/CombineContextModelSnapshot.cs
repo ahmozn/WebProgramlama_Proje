@@ -125,6 +125,10 @@ namespace webProgProje.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("Sifre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Soyad")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -132,8 +136,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("Telefon")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.HasKey("TC");
 
@@ -157,14 +161,14 @@ namespace webProgProje.Migrations
                     b.Property<bool>("Durum")
                         .HasColumnType("bit");
 
-                    b.Property<int>("HastaID")
+                    b.Property<int?>("HastaID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RandevuDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("RandevuTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("time");
 
                     b.HasKey("RandevuID");
 
@@ -193,7 +197,7 @@ namespace webProgProje.Migrations
                     b.HasOne("webProgProje.Models.Anadal", "Anadal")
                         .WithMany("DoktorListesi")
                         .HasForeignKey("AnadalID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("webProgProje.Models.Kullanici", "Kullanici")
@@ -234,9 +238,7 @@ namespace webProgProje.Migrations
 
                     b.HasOne("webProgProje.Models.Hasta", "Hasta")
                         .WithMany("AktifRandevular")
-                        .HasForeignKey("HastaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HastaID");
 
                     b.Navigation("Anadal");
 

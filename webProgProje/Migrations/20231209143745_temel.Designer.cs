@@ -12,7 +12,7 @@ using webProgProje.Models;
 namespace webProgProje.Migrations
 {
     [DbContext(typeof(CombineContext))]
-    [Migration("20231203092457_temel")]
+    [Migration("20231209143745_temel")]
     partial class temel
     {
         /// <inheritdoc />
@@ -128,6 +128,10 @@ namespace webProgProje.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("Sifre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Soyad")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -135,8 +139,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("Telefon")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.HasKey("TC");
 
@@ -160,7 +164,7 @@ namespace webProgProje.Migrations
                     b.Property<bool>("Durum")
                         .HasColumnType("bit");
 
-                    b.Property<int>("HastaID")
+                    b.Property<int?>("HastaID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RandevuDate")
@@ -237,9 +241,7 @@ namespace webProgProje.Migrations
 
                     b.HasOne("webProgProje.Models.Hasta", "Hasta")
                         .WithMany("AktifRandevular")
-                        .HasForeignKey("HastaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HastaID");
 
                     b.Navigation("Anadal");
 

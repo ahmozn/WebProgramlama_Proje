@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace webProgProje.Models
 {
@@ -25,8 +26,8 @@ namespace webProgProje.Models
         public Anadal Anadal { get; set; }
 
         [ForeignKey("Hasta")]
-        public int HastaID { get; set; }
-        public Hasta Hasta {  get; set; }
+        public int? HastaID { get; set; }
+        public Hasta? Hasta {  get; set; }
 
     }
 }

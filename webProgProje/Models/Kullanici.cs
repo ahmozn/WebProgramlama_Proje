@@ -6,8 +6,7 @@ namespace webProgProje.Models
     public class Kullanici
     {
         [Key]
-        [MaxLength(11)]
-        [MinLength(11)]
+        [StringLength(11)]
         public string TC { get; set; }
 
         [Required]
@@ -24,7 +23,7 @@ namespace webProgProje.Models
 
         [Phone]
         [Required]
-        [MaxLength(100)]
+        [StringLength(11)]
         public string Telefon { get; set; }
 
         [EmailAddress]

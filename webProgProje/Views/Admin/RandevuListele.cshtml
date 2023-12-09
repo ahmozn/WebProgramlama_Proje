@@ -1,0 +1,65 @@
+﻿@model IEnumerable<webProgProje.Models.Randevu>
+
+@{
+    ViewData["Title"] = "RandevuListele";
+}
+@TempData["randevular"]
+<h1>RandevuListele</h1>
+
+<p>
+    <a asp-action="RandevuEkle">Yeni Randevu Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RandevuDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RandevuTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doktor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Anadal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hasta)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@*@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RandevuDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RandevuTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Durum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doktor.DoktorDerece)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Anadal.AnadalAd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hasta.Kullanici.Ad)
+            </td>
+            <td>
+                <a asp-action="RandevuDuzenle" asp-route-id="@item.RandevuID">Düzenle</a> |
+                <a asp-action="RandevuDetay" asp-route-id="@item.RandevuID">Detaylar</a> |
+                <a asp-action="RandevuSil" asp-route-id="@item.RandevuID">Sil</a>
+            </td>
+        </tr>
+}*@
+    </tbody>
+</table>

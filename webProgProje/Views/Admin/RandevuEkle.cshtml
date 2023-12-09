@@ -35,9 +35,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="AnadalID" class="control-label"></label>
-                <select asp-for="AnadalID" class ="form-control" asp-items="ViewBag.AnadalID"></select>
+                <select asp-for="AnadalID" class ="form-control" asp-items=@ViewBag.AnadalID></select>
             </div>
-             <div class="form-group">
+             <div class="form-group" hidden>
                 <label asp-for="HastaID" class="control-label"></label>
                 <select asp-for="HastaID" class ="form-control" asp-items="ViewBag.HastaID"></select>
             </div>

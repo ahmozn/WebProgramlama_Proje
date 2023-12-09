@@ -3,6 +3,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using webProgProje.Models;
 
+/*
+ 
+    MODEL GERÇEKLEMESİ İÇİN
+    BAŞTA PARAMETRESİZ FONK SONRA AYNI İSİMDE PARAMETRELİ VE [HTTPPOST] ETIKETIYLE KULLANMAK LAZIM
+ 
+ */
 
 namespace webProgProje.Controllers
 {
@@ -99,7 +105,6 @@ namespace webProgProje.Controllers
             string hata2 = "bu tc'ye sahip bir hasta bulunmaktadır.";
             string valid = k.TC + " tc'li hasta başarıyla eklendi.";
             var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 h.TC = k.TC;
@@ -142,13 +147,11 @@ namespace webProgProje.Controllers
         [HttpPost]
         public IActionResult RandevuEkle(Randevu r)
         {
-            //var randevular = _combineContext.Randevular.ToList();
             string hata = "ekleme başarısız";
             string hata2 = "bu id'ye sahip bir randevu bulunmaktadır.";
             string valid = r.RandevuID + " id'li randevu başarıyla eklendi.";
             var varmi=_combineContext.Randevular.FirstOrDefault(x=>x.RandevuID == r.RandevuID);
             ModelState.Remove(nameof(r.HastaID));
-            
             if(ModelState.IsValid)
             {
                 if (varmi == null)
@@ -175,5 +178,22 @@ namespace webProgProje.Controllers
             }
             return View();
         }
-    }
+        public IActionResult KullaniciListele()
+        {
+			var kullanicilar = from Kullanici in _combineContext.Kullanicilar
+							where Kullanici.KullaniciTipi != "ADMIN"
+							select Kullanici;
+			return View(kullanicilar);
+        }
+        public IActionResult RandevuListele()
+        {
+            var errors=ModelState.Values.SelectMany(x => x.Errors);
+			var randevular = from r in _combineContext.Randevular
+                             where r.RandevuID == 1
+                             select r;
+            //TempData["randevular"] = randevular;
+			return View(randevular);  
+        }
+    }   
+
 }
