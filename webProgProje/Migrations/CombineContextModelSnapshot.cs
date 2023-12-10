@@ -51,7 +51,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("AnadalAd")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("AnadalID");
 
@@ -71,7 +72,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("DoktorDerece")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("TC")
                         .IsRequired()
@@ -113,8 +115,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("Ad")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -131,8 +133,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("Soyad")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Telefon")
                         .IsRequired()
@@ -164,10 +166,10 @@ namespace webProgProje.Migrations
                     b.Property<int?>("HastaID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("RandevuDate")
+                    b.Property<DateOnly>("RandevuDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("RandevuTime")
+                    b.Property<TimeOnly>("RandevuTime")
                         .HasColumnType("time");
 
                     b.HasKey("RandevuID");
@@ -186,7 +188,7 @@ namespace webProgProje.Migrations
                     b.HasOne("webProgProje.Models.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("TC")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Kullanici");

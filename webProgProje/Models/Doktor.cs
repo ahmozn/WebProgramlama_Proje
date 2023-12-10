@@ -9,6 +9,7 @@ namespace webProgProje.Models
         public int DoktorID { get; set; }
 
         [Required]
+        [MaxLength(30)]
         public string DoktorDerece { get; set;}
 
         [ForeignKey("Kullanici")]

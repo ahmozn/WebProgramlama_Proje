@@ -9,9 +9,9 @@ namespace webProgProje.Models
         [Key]
         public int RandevuID { get; set; }
         [Required]
-        public DateTime RandevuDate { get; set; }
+        public DateOnly RandevuDate { get; set; }
         [Required]
-        public DateTime RandevuTime {  get; set; }
+        public TimeOnly RandevuTime {  get; set; }
         
 
         [Required]

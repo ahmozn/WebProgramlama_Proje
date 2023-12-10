@@ -13,12 +13,13 @@ namespace webProgProje.Controllers
 
         // GET: api/<ApiDenemeController>
         [HttpGet]
-        public IEnumerable<Kullanici> Get()
+        public IEnumerable<Randevu> Get()
         {
-            var doktorlar = from Kullanici in _combineContext.Kullanicilar
-                            where Kullanici.KullaniciTipi == "doktor"
-                            select Kullanici;
-            return doktorlar;
+            //var doktorlar = from Kullanici in _combineContext.Kullanicilar
+            //                where Kullanici.KullaniciTipi == "doktor"
+            //                select Kullanici;
+            var randevular= _combineContext.Randevular.OrderBy(x=>x.RandevuID);
+            return randevular;
         }
 
         // GET api/<ApiDenemeController>/5

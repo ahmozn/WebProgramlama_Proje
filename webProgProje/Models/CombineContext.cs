@@ -16,7 +16,7 @@ namespace webProgProje.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER02;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER02;Database=master;Trusted_Connection=True;TrustServerCertificate=True",x=>x.UseDateOnlyTimeOnly());
         }
 
     }

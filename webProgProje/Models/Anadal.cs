@@ -11,6 +11,7 @@ namespace webProgProje.Models
         public int AnadalID { get; set; }
 
         [Required]
+        [MaxLength(30)]
         public string AnadalAd { get; set; }
 
         public ICollection<Doktor> DoktorListesi { get; set; }

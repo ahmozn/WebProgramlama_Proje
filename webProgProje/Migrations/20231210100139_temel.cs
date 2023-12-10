@@ -17,7 +17,7 @@ namespace webProgProje.Migrations
                 {
                     AnadalID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AnadalAd = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AnadalAd = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,8 +30,8 @@ namespace webProgProje.Migrations
                 {
                     TC = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     KullaniciTipi = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Ad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Soyad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Ad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Soyad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Telefon = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sifre = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -57,7 +57,7 @@ namespace webProgProje.Migrations
                         column: x => x.TC,
                         principalTable: "Kullanicilar",
                         principalColumn: "TC",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,7 +66,7 @@ namespace webProgProje.Migrations
                 {
                     DoktorID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DoktorDerece = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoktorDerece = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     TC = table.Column<string>(type: "nvarchar(11)", nullable: false),
                     AnadalID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -112,8 +112,8 @@ namespace webProgProje.Migrations
                 {
                     RandevuID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RandevuDate = table.Column<DateTime>(type: "date", nullable: false),
-                    RandevuTime = table.Column<DateTime>(type: "time", nullable: false),
+                    RandevuDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    RandevuTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     Durum = table.Column<bool>(type: "bit", nullable: false),
                     DoktorID = table.Column<int>(type: "int", nullable: false),
                     AnadalID = table.Column<int>(type: "int", nullable: false),

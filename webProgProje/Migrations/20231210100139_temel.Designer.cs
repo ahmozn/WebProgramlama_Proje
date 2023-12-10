@@ -12,7 +12,7 @@ using webProgProje.Models;
 namespace webProgProje.Migrations
 {
     [DbContext(typeof(CombineContext))]
-    [Migration("20231209143745_temel")]
+    [Migration("20231210100139_temel")]
     partial class temel
     {
         /// <inheritdoc />
@@ -54,7 +54,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("AnadalAd")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("AnadalID");
 
@@ -74,7 +75,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("DoktorDerece")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("TC")
                         .IsRequired()
@@ -116,8 +118,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("Ad")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -134,8 +136,8 @@ namespace webProgProje.Migrations
 
                     b.Property<string>("Soyad")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Telefon")
                         .IsRequired()
@@ -167,11 +169,11 @@ namespace webProgProje.Migrations
                     b.Property<int?>("HastaID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("RandevuDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("RandevuDate")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("RandevuTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("RandevuTime")
+                        .HasColumnType("time");
 
                     b.HasKey("RandevuID");
 

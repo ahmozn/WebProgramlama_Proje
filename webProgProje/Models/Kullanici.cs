@@ -14,11 +14,11 @@ namespace webProgProje.Models
         public string KullaniciTipi { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Ad { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Soyad { get; set; }
 
         [Phone]

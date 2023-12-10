@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-@*@foreach (var item in Model) {
+@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.RandevuDate)
@@ -46,13 +46,13 @@
                 @Html.DisplayFor(modelItem => item.Durum)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doktor.DoktorDerece)
+                @Html.DisplayFor(modelItem => item.Doktor.Kullanici.Ad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Anadal.AnadalAd)
+                @Html.DisplayFor(modelItem => item.AnadalID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Hasta.Kullanici.Ad)
+                @Html.DisplayFor(modelItem => item.HastaID)
             </td>
             <td>
                 <a asp-action="RandevuDuzenle" asp-route-id="@item.RandevuID">Düzenle</a> |
@@ -60,6 +60,6 @@
                 <a asp-action="RandevuSil" asp-route-id="@item.RandevuID">Sil</a>
             </td>
         </tr>
-}*@
+}
     </tbody>
 </table>
