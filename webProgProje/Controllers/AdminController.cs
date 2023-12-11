@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using webProgProje.Models;
@@ -65,6 +66,12 @@ namespace webProgProje.Controllers
         {
             return View();
         }
+
+        //DOKTOR EKLEME
+        public IActionResult DoktorEkle()
+        {
+            return View();
+        }
         public IActionResult DoktorEkle(Kullanici k)
         {
             Doktor d = new Doktor();
@@ -94,6 +101,8 @@ namespace webProgProje.Controllers
             TempData["admin_kisiEkle"] = hata;
             return RedirectToAction("AdminKisiMesaj");
         }
+
+        //HASTA EKLEME
         public IActionResult HastaEkle()
         {
             return View();
@@ -103,7 +112,7 @@ namespace webProgProje.Controllers
         {
             Hasta h = new Hasta();
             string hata = "ekleme başarısız";
-            string hata2 = "bu tc'ye sahip bir hasta bulunmaktadır.";
+            string hata2 = "bu tc'ye sahip bir kayıt bulunmaktadır.";
             string valid = k.TC + " tc'li hasta başarıyla eklendi.";
             var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
             if (ModelState.IsValid)
@@ -128,21 +137,15 @@ namespace webProgProje.Controllers
             return RedirectToAction("AdminKisiMesaj");
         }
 
-        public IActionResult AdminKisiMesaj()
-        {
-            if (TempData["admin_kisiEkle"] is null)
-                return RedirectToAction("KisiEkle");
-            return View();
-        }
-
-        public IActionResult HastaKaydiAc()
-        {
-            return View();
-        }
-
+        //RANDEVU EKLEME
         public IActionResult RandevuEkle()
         {
-            return View();
+            var anadallar = _combineContext.Anadallar.OrderBy(x => x.AnadalAd).ToList();
+            var doktorlar=_combineContext.Doktorlar.Include(x=>x.Kullanici).ToList();
+            Randevu randevu = new Randevu();
+            randevu.AnadalList = anadallar;
+            randevu.DoktorList = doktorlar;
+            return View(randevu);
         }
         
         [HttpPost]
@@ -155,6 +158,11 @@ namespace webProgProje.Controllers
             ModelState.Remove(nameof(r.HastaID));
             if(ModelState.IsValid)
             {
+                if (r.AnadalID == 0 || r.DoktorID == 0)
+                {
+                    TempData["admin_randevuEkle"] = "Doktor veya Anadal kaydı bulunamadı. Kontrol ediniz.";
+                    return RedirectToAction("AdminRandevuMesaj");
+                }
                 if (varmi == null)
                 {
                     _combineContext.Randevular.Add(r);
@@ -171,12 +179,19 @@ namespace webProgProje.Controllers
             TempData["admin_randevuEkle"] = hata;
             return RedirectToAction("AdminRandevuMesaj");
         }
+
+        //BİLGİLENDİRME YÖNLENDİRMELERİ
+
+        public IActionResult AdminKisiMesaj()
+        {
+            if (TempData["admin_kisiEkle"] is null)
+                return RedirectToAction("KisiEkle");
+            return View();
+        }
         public IActionResult AdminRandevuMesaj()
         {
             if (TempData["admin_randevuEkle"]is null)
-            {
                 return RedirectToAction("RandevuEkle");
-            }
             return View();
         }
         public IActionResult KullaniciListele()
@@ -188,11 +203,8 @@ namespace webProgProje.Controllers
         }
         public IActionResult RandevuListele()
         {
-            var errors=ModelState.Values.SelectMany(x => x.Errors);
 			var randevular = from r in _combineContext.Randevular
-                             where r.RandevuID == 1
                              select r;
-            //TempData["randevular"] = randevular;
 			return View(randevular);  
         }
     }   

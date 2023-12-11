@@ -8,5 +8,9 @@ namespace webProgProje.Controllers
         {
             return View();
         }
+        public IActionResult RandevuAl()
+        {
+            return View();
+        }
     }
 }

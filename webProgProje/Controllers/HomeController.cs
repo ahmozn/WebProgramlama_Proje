@@ -21,8 +21,12 @@ namespace webProgProje.Controllers
                          select Kullanici;
             return View(doktorlar);
         }
+        public IActionResult Anasayfa()
+        {
+            return View();
+        }
 
-        public IActionResult Privacy()
+        public IActionResult Hesap() 
         {
             return View();
         }
@@ -35,14 +39,22 @@ namespace webProgProje.Controllers
             }
             return View();
         }
+        [HttpPost]
         public IActionResult Login(Kullanici usr)
         {
             var kullanicilar = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == usr.TC && x.Sifre == usr.Sifre);
             if (kullanicilar != null)
             {
-                HttpContext.Session.SetString("SessionUser", kullanicilar.Ad);
-                TempData["msj"] = "hoş geldiniz"+kullanicilar.Ad;
-                return RedirectToAction("Index");
+                if (kullanicilar.KullaniciTipi == "doktor")
+                {
+                    HttpContext.Session.SetString("SessionUser", kullanicilar.Ad);
+                    return RedirectToActionPermanent("","Doktor");
+                }
+                else if (kullanicilar.KullaniciTipi == "hasta")
+                {
+                    HttpContext.Session.SetString("SessionUser", kullanicilar.Ad);
+                    return RedirectToActionPermanent("Hesap","Hasta");
+                }
             }
             TempData["hata"] = "kullanıcı adı veya şifre hatalı";
             return RedirectToAction("LoginPage");
@@ -55,6 +67,49 @@ namespace webProgProje.Controllers
         }
 
         public IActionResult Signup()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Signup(Kullanici k)
+        {
+            Hasta h = new Hasta();
+            string hata = "Kayıt başarısız";
+            string hata2 = "Bu tc'ye sahip bir kayıt bulunmaktadır.";
+            string valid = "Kayıt başarılı.";
+            var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
+            if (ModelState.IsValid)
+            {
+                h.TC = k.TC;
+                if (varmi == null)
+                {
+                    _combineContext.Kullanicilar.Add(k);
+                    _combineContext.SaveChanges();
+                    _combineContext.Hastalar.Add(h);
+                    _combineContext.SaveChanges();
+                    TempData["signup"] = valid;
+                    return RedirectToAction("Hesap");
+                }
+                else
+                {
+                    TempData["signup"] = hata2;
+                    return RedirectToAction("Signup");
+                }
+            }
+            TempData["signup"] = hata;
+            return RedirectToAction("Anasayfa");
+        }
+
+        public IActionResult RandevuAl()
+        {
+            if (HttpContext.Session.GetString("SessionUser") is null)
+            {
+                TempData["msj"] = "Lütfen giriş yapınız.";
+                return RedirectToAction("LoginPage");
+            }
+            return View();
+        }
+        public IActionResult RandevuAl1(int id)
         {
             return View();
         }

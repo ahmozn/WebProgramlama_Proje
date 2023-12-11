@@ -7,6 +7,10 @@
 {
     <div class="alert alert-danger">@TempData["hata"]</div>
 }
+@if(TempData["msj"] is not null)
+{
+    <div class="alert alert-danger">@TempData["msj"]</div>
+}
 <h1>Login</h1>
 
 <h4>Kullanici</h4>
@@ -35,7 +39,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Anasayfaya dön</a>
+    <a asp-action="Anasayfa">Anasayfaya dön</a>
 </div>
 
 @section Scripts {

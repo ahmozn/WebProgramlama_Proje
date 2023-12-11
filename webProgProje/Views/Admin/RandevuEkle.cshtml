@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "RandevuEkle";
-    //List<SelectListItem> anadal = new List<SelectListItem>();
-    
 }
 
 <h1>RandevuEkle</h1>
@@ -16,33 +14,59 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RandevuDate" class="control-label"></label>
-                <input asp-for="RandevuDate" class="form-control" type="date" />
+                <input asp-for="RandevuDate" class="form-control" />
                 <span asp-validation-for="RandevuDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RandevuTime" class="control-label"></label>
-                <input asp-for="RandevuTime" class="form-control" type="time"/>
+                <input asp-for="RandevuTime" class="form-control" />
                 <span asp-validation-for="RandevuTime" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check" hidden>
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Durum" /> @Html.DisplayNameFor(model => model.Durum)
+                    <input class="form-check-input" asp-for="Durum" value="true"/>
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="DoktorID" class="control-label"></label>
-                <select asp-for="DoktorID" class ="form-control" asp-items="ViewBag.DoktorID"></select>
+                <select asp-for="DoktorID" class ="form-control">
+                    <option value="">Doktor Seçiniz...</option>
+                    @foreach(var x in Model.DoktorList)
+                    {
+                        @if(x != null)
+                        {
+                            <option value="@((int)x.DoktorID)">@x.DoktorDerece.ToUpper() &nbsp @x.Kullanici.Ad.ToUpper()</option>
+                        }
+                        else
+                        {
+                            <option value="0">KAYIT BULUNAMADI</option>
+                        }
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="AnadalID" class="control-label"></label>
-                <select asp-for="AnadalID" class ="form-control" asp-items=@ViewBag.AnadalID></select>
+                <select asp-for="AnadalID" class ="form-control">
+                    <option value="">Doktor Seçiniz...</option>
+                    @foreach (var x in Model.AnadalList)
+                    {
+                        if(x != null)
+                        {
+                            <option value="@x.AnadalID">@x.AnadalAd.ToUpper()</option>
+                        }
+                        else
+                        {
+                            <option value="0">KAYIT BULUNAMADI</option>
+                        }
+                    }
+                </select>
             </div>
-             <div class="form-group" hidden>
+            <div class="form-group" hidden>
                 <label asp-for="HastaID" class="control-label"></label>
-                <select asp-for="HastaID" class ="form-control" asp-items="ViewBag.HastaID"></select>
+                <select asp-for="HastaID" class ="form-control"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Randevu Ekle" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
