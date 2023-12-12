@@ -1,0 +1,60 @@
+﻿@model IEnumerable<webProgProje.Models.Randevu>
+
+
+<h1>Randevu Al</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RandevuDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RandevuTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doktor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Anadal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hasta)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RandevuDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RandevuTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Durum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doktor.Kullanici.Ad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnadalID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HastaID)
+            </td>
+            <td>    
+                <a asp-action="RandevuAl" asp-route-id="@item.RandevuID"><button type="button" class="btn btn-primary">Randevu Al</button></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -12,6 +12,6 @@ namespace webProgProje.Models
         public string TC {  get; set; }
         public Kullanici Kullanici { get; set; }
 
-        public ICollection<Randevu> AktifRandevular { get; set; }
+        public ICollection<Randevu> ?AktifRandevular { get; set; }
     }
 }

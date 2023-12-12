@@ -1,0 +1,30 @@
+﻿@model webProgProje.Models.Hasta
+
+@{
+    ViewData["Title"] = "Hesap";
+}
+
+<h1>Hesap</h1>
+
+<div>
+    <h4>Hasta</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Kullanici)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Kullanici.TC)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.HastaID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+<div>
+    @foreach(var item in Model.AktifRandevular)
+    {
+        <h3>@item</h3>
+    }
+</div>

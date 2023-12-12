@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using webProgProje.Models;
 
@@ -14,23 +15,19 @@ namespace webProgProje.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            var doktorlar=from Kullanici in _combineContext.Kullanicilar
-                         where Kullanici.KullaniciTipi=="doktor"
-                         select Kullanici;
-            return View(doktorlar);
-        }
+        //ANASAYFA VIEW
         public IActionResult Anasayfa()
         {
             return View();
         }
 
+        //HESABA YÖNLENDİRME
         public IActionResult Hesap() 
         {
-            return View();
+            return RedirectToAction("LoginPage");
         }
 
+        //GİRİŞ İŞLEMİ
         public IActionResult LoginPage()
         {
             if (HttpContext.Session.GetString("SessionUser") is not null)
@@ -48,24 +45,23 @@ namespace webProgProje.Controllers
                 if (kullanicilar.KullaniciTipi == "doktor")
                 {
                     HttpContext.Session.SetString("SessionUser", kullanicilar.Ad);
-                    return RedirectToActionPermanent("","Doktor");
+                    return RedirectToActionPermanent("Hesap","Doktor");
                 }
                 else if (kullanicilar.KullaniciTipi == "hasta")
                 {
                     HttpContext.Session.SetString("SessionUser", kullanicilar.Ad);
                     return RedirectToActionPermanent("Hesap","Hasta");
                 }
+                else if (kullanicilar.KullaniciTipi == "admin")
+                {
+                    return RedirectToActionPermanent("Index", "Admin");
+                }
             }
             TempData["hata"] = "kullanıcı adı veya şifre hatalı";
             return RedirectToAction("LoginPage");
         }
 
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index");
-        }
-
+        //KAYDOLMA İŞLEMİ
         public IActionResult Signup()
         {
             return View();
@@ -73,6 +69,11 @@ namespace webProgProje.Controllers
         [HttpPost]
         public IActionResult Signup(Kullanici k)
         {
+            if (k.Telefon.StartsWith("05") != true)
+            {
+                TempData["signup"] = "Telefon numaranızı kontrol ediniz.";
+                return RedirectToAction("Signup");
+            }
             Hasta h = new Hasta();
             string hata = "Kayıt başarısız";
             string hata2 = "Bu tc'ye sahip bir kayıt bulunmaktadır.";
@@ -100,6 +101,14 @@ namespace webProgProje.Controllers
             return RedirectToAction("Anasayfa");
         }
 
+        //ÇIKIŞ İŞLEMİ
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Anasayfa");
+        }
+
+        //RANDEVU AL SECENEGI
         public IActionResult RandevuAl()
         {
             if (HttpContext.Session.GetString("SessionUser") is null)
@@ -107,11 +116,7 @@ namespace webProgProje.Controllers
                 TempData["msj"] = "Lütfen giriş yapınız.";
                 return RedirectToAction("LoginPage");
             }
-            return View();
-        }
-        public IActionResult RandevuAl1(int id)
-        {
-            return View();
+            return RedirectToAction("RandevuListele","Hasta");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

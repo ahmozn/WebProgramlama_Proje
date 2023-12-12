@@ -11,9 +11,8 @@
 {
     <div class="alert alert-danger">@TempData["msj"]</div>
 }
-<h1>Login</h1>
+<h1>Giriş Yap</h1>
 
-<h4>Kullanici</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -30,9 +29,11 @@
                 <input type="password" asp-for="Sifre" class="form-control" />
                 <span asp-validation-for="Sifre" class="text-danger"></span>
             </div>
-            <br />
+            <hr />
             <div class="form-group">
                 <input type="submit" value="Giriş Yap" class="btn btn-primary" />
+                <p>ya da</p>
+                <a asp-action="Signup"><button type="button" class="btn btn-secondary">Kaydol</button></a>
             </div>
         </form>
     </div>
