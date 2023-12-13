@@ -28,7 +28,7 @@ namespace webProgProje.Models
 
         [ForeignKey("Hasta")]
         public int? HastaID { get; set; }
-        public Hasta? Hasta { get; set; }
+        public Hasta ?Hasta { get; set; }
 
         [NotMapped]
         public List<Anadal> ?AnadalList { get; set; }

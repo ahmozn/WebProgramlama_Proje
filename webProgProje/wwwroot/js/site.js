@@ -2,3 +2,10 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+/*function get() {
+    var select = document.getElementById("AnadalID");
+    var value = select.Options[select.selectedIndex].value;
+    document.getElementById("value").value = Option.value;
+}
+*/

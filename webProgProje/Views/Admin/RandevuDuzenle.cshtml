@@ -1,15 +1,18 @@
 ﻿@model webProgProje.Models.Randevu
 
+@{
+    ViewData["Title"] = "RandevuDuzenle";
+}
 
-
-<h1>RandevuEkle</h1>
+<h1>RandevuDuzenle</h1>
 
 <h4>Randevu</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="RandevuEkle">
+        <form asp-action="RandevuDuzenle">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RandevuID" />
             <div class="form-group">
                 <label asp-for="RandevuDate" class="control-label"></label>
                 <input asp-for="RandevuDate" class="form-control" />
@@ -20,15 +23,15 @@
                 <input asp-for="RandevuTime" class="form-control" />
                 <span asp-validation-for="RandevuTime" class="text-danger"></span>
             </div>
-            <div class="form-group form-check" hidden>
+            <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Durum" value="true"/>
+                    <input class="form-check-input" asp-for="Durum" /> @Html.DisplayNameFor(model => model.Durum)
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="AnadalID" class="control-label"></label>
                 <select asp-for="AnadalID" class="form-control">
-                    <option value="">Anadal Seçiniz...</option>
+                    <option value="">Doktor Seçiniz...</option>
                     @foreach (var x in Model.AnadalList)
                     {
                         if (x != null)
@@ -45,15 +48,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="DoktorID" class="control-label"></label>
-                <select asp-for="DoktorID" class ="form-control">
+                <select asp-for="DoktorID" class="form-control">
                     <option value="">Doktor Seçiniz...</option>
-                    
-                    @foreach(var x in Model.DoktorList)
+                    @foreach (var x in Model.DoktorList)
                     {
-                        if(x != null)
-                        { 
-                            //tüm doktorları getirmemeli
-                            <option value="@((int)x.DoktorID)">@x.DoktorDerece.ToUpper() &nbsp @x.Kullanici.Ad.ToUpper() &nbsp @x.Kullanici.Soyad.ToUpper()</option>
+                        @if (x != null)
+                        {
+                            <option value="@((int)x.DoktorID)">@x.DoktorDerece.ToUpper() &nbsp 
+                                @x.Kullanici.Ad.ToUpper() &nbsp; @x.Kullanici.Soyad.ToUpper()</option>
                         }
                         else
                         {
@@ -63,24 +65,23 @@
                 </select>
                 <span asp-validation-for="DoktorID" class="text-danger"></span>
             </div>
-           
+            
             <div class="form-group" hidden>
                 <label asp-for="HastaID" class="control-label"></label>
-                <select asp-for="HastaID" class ="form-control"></select>
+                <select asp-for="HastaID" class="form-control" asp-items="ViewBag.HastaID"></select>
+                <span asp-validation-for="HastaID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Düzenlemeyi Kaydet" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="RandevuListele">Randevulara dön</a>
 </div>
 
-
 @section Scripts {
-    <script type="text/javascript" src=".\js/site.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

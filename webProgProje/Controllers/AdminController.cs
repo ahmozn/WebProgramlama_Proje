@@ -137,11 +137,16 @@ namespace webProgProje.Controllers
             return RedirectToAction("AdminKisiMesaj");
         }
 
+        //--------------------------RANDEVU İŞLEMLERİ-----------------------------
+
+        //FAZLADAN VİEW EKLEYEREK SIKINTILARI ÇÖZMEK LAZIM EKLERKEN
+
         //RANDEVU EKLEME
         public IActionResult RandevuEkle()
         {
             var anadallar = _combineContext.Anadallar.OrderBy(x => x.AnadalAd).ToList();
-            var doktorlar=_combineContext.Doktorlar.Include(x=>x.Kullanici).ToList();
+            var doktorlar=_combineContext.Doktorlar.Include(x=>x.Kullanici)
+                .Include(x=>x.Anadal).ToList();
             Randevu randevu = new Randevu();
             randevu.AnadalList = anadallar;
             randevu.DoktorList = doktorlar;
@@ -160,23 +165,100 @@ namespace webProgProje.Controllers
             {
                 if (r.AnadalID == 0 || r.DoktorID == 0)
                 {
-                    TempData["admin_randevuEkle"] = "Doktor veya Anadal kaydı bulunamadı. Kontrol ediniz.";
+                    TempData["admin_randevuMesaj"] = "Doktor veya Anadal kaydı bulunamadı. Kontrol ediniz.";
                     return RedirectToAction("AdminRandevuMesaj");
                 }
                 if (varmi == null)
                 {
                     _combineContext.Randevular.Add(r);
                     _combineContext.SaveChanges();
-                    TempData["admin_randevuEkle"] = valid;
+                    TempData["admin_randevuMesaj"] = valid;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["admin_randevuEkle"] = hata2;
+                    TempData["admin_randevuMesaj"] = hata2;
                     return RedirectToAction("AdminRandevuMesaj");
                 }
             }
-            TempData["admin_randevuEkle"] = hata;
+            TempData["admin_randevuMesaj"] = hata;
+            return RedirectToAction("AdminRandevuMesaj");
+        }
+
+        //RANDEVU LİSTELEME
+        public IActionResult RandevuListele()
+        {
+            var randevular = from r in _combineContext.Randevular
+                             select r;
+            return View(randevular);
+        }
+
+        //RANDEVU DÜZENLEME
+        public IActionResult RandevuDuzenle(int? id)
+        {
+            if (id is null)
+            {
+                TempData["admin_randevuMesaj"] = "boş gecme";
+                return View("AdminRandevuMesaj");
+            }
+            var r = _combineContext.Randevular.FirstOrDefault(x => x.RandevuID == id);
+            var anadallar = _combineContext.Anadallar.OrderBy(x => x.AnadalAd).ToList();
+            var doktorlar = _combineContext.Doktorlar.Include(x => x.Kullanici).ToList();
+            if (r == null)
+            {
+                TempData["admin_randevuMesaj"] = "geçerli yazar gir";
+                return View("AdminRandevuMesaj");
+            }
+            r.AnadalList = anadallar;
+            r.DoktorList = doktorlar;
+            return View(r);
+        }
+        [HttpPost]
+        public IActionResult RandevuDuzenle(int? id, Randevu r)
+        {
+            if (id != r.RandevuID)
+            {
+                TempData["admin_randevuMesaj"] = "hop hemşerim nereye";
+                return View("AdminRandevuMesaj");
+            }
+            if (ModelState.IsValid)
+            {
+                _combineContext.Randevular.Update(r);
+                _combineContext.SaveChanges();
+                TempData["admin_randevuMesaj"] = "yazar duzenlendi";
+                return RedirectToAction("Index");
+            }
+            TempData["admin_randevuMesaj"] = "tüm alanları doldurun";
+            return View();
+        }
+        
+        //RANDEVU SİLME
+        public IActionResult RandevuSil()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RandevuSil(int? id)
+        {
+            if (id is null)
+            {
+                TempData["admin_randevuMesaj"] = "boş geçme";
+                return View("AdminRandevuMesaj");
+            }
+            var randevular=_combineContext.Randevular.FirstOrDefault(x=>x.RandevuID == id);
+            if (randevular == null)
+            {
+                TempData["admin_randevuMesaj"] = "geçerli randevu giriniz";
+                return View("AdminRandevuMesaj",randevular);
+            }
+            if(randevular.Durum==true)
+            {
+                TempData["admin_randevuMesaj"] = "randevu durumu AKTİF. Önce inaktif hale getiriniz.";
+                return View("AdminRandevuMesaj",randevular);
+            }
+            _combineContext.Randevular.Remove(randevular);
+            _combineContext.SaveChanges();
+            TempData["admin_randevuMesaj"] = randevular.RandevuID + " id'li randevu başarıyla silindi.";
             return RedirectToAction("AdminRandevuMesaj");
         }
 
@@ -190,7 +272,7 @@ namespace webProgProje.Controllers
         }
         public IActionResult AdminRandevuMesaj()
         {
-            if (TempData["admin_randevuEkle"]is null)
+            if (TempData["admin_randevuMesaj"]is null)
                 return RedirectToAction("RandevuEkle");
             return View();
         }
@@ -201,12 +283,7 @@ namespace webProgProje.Controllers
 							select Kullanici;
 			return View(kullanicilar);
         }
-        public IActionResult RandevuListele()
-        {
-			var randevular = from r in _combineContext.Randevular
-                             select r;
-			return View(randevular);  
-        }
+        
     }   
 
 }
