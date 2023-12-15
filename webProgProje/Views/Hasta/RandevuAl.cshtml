@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.HastaID)
             </td>
             <td>    
-                <a asp-action="RandevuAl" asp-route-id="@item.RandevuID"><button type="button" class="btn btn-primary">Randevu Al</button></a>
+                <a asp-controller="Hasta" asp-action="RandevuAl" asp-route-id="@item.RandevuID"><button type="button" class="btn btn-primary">Randevu Al</button></a>
             </td>
         </tr>
 }

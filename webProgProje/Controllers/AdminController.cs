@@ -68,21 +68,28 @@ namespace webProgProje.Controllers
         }
 
         //DOKTOR EKLEME
+        //DUZENLEME ŞART(PROF MU DOÇENT Mİ SEÇTİRİLECEK. ANADAL SEÇİLECEK.)
         public IActionResult DoktorEkle()
         {
-            return View();
+            Kullanici kullanici=new Kullanici();
+            var anadallar = _combineContext.Anadallar.OrderBy(x => x.AnadalAd).ToList();
+            kullanici.AnadalList = anadallar;
+            return View(kullanici);
         }
+        [HttpPost]
         public IActionResult DoktorEkle(Kullanici k)
         {
             Doktor d = new Doktor();
             string hata = "ekleme başarısız";
-            string hata2 = "bu tc'ye sahip bir kullanıcı bulunmaktadır.";
-            string valid = k.TC + " tc'li kullanıcı başarıyla eklendi.";
+            string hata2 = "bu tc'ye sahip bir doktor bulunmaktadır.";
+            string valid = k.TC + " tc'li doktor başarıyla eklendi.";
             var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
+            d.TC = k.TC;
+            d.AnadalID = k.AnadalID;
+            d.DoktorDerece = k.Doktor.DoktorDerece;
             if (ModelState.IsValid)
             {
-                d.TC = k.TC;
-                d.AnadalID = k.AnadalID;
+                
                 if (varmi == null)
                 {
                     _combineContext.Kullanicilar.Add(k);
@@ -101,7 +108,47 @@ namespace webProgProje.Controllers
             TempData["admin_kisiEkle"] = hata;
             return RedirectToAction("AdminKisiMesaj");
         }
+        public IActionResult DoktorDuzenle(int? id)
+        {
+            if (id is null)
+            {
+                TempData["admin_kisiMesaj"] = "boş gecme";
+                return View("AdminKisiMesaj");
+            }
+            var d = _combineContext.Doktorlar.FirstOrDefault(x => x.DoktorID == id);
+            var doktorlar = _combineContext.Doktorlar.Include(x => x.Kullanici);
+            if (d == null)
+            {
+                TempData["admin_kisiMesaj"] = "geçerli doktor gir";
+                return View("AdminKisiMesaj");
+            }
+            if(d.AktifRandevular is not null)
+            {
+                TempData["admin_kisiMesaj"] = "aktif randevu bulunmaktadır, randevuları iptal edip tekrar deneyiniz.";
+                return View("AdminKisiMesaj");
+            }
+            return View(doktorlar);
+        }
 
+        [HttpPost]
+        public IActionResult DoktorDuzenle(int? id, Kullanici k)
+        {
+            Doktor d=new Doktor();
+            var doktorlar=_combineContext.Doktorlar.Include(x=>x.Kullanici).ToList();
+            d.TC = k.TC;
+            d.AnadalID = k.AnadalID;
+            if (ModelState.IsValid)
+            {
+                _combineContext.Kullanicilar.Update(k);
+                _combineContext.SaveChanges();
+                _combineContext.Doktorlar.Update(d);
+                _combineContext.SaveChanges();
+                TempData["admin_kisiMesaj"] = "doktor duzenlendi";
+                return RedirectToAction("Index");
+            }
+            TempData["admin_kisiMesaj"] = "tüm alanları doldurun";
+            return View();
+        }
         //HASTA EKLEME
         public IActionResult HastaEkle()
         {
@@ -139,7 +186,7 @@ namespace webProgProje.Controllers
 
         //--------------------------RANDEVU İŞLEMLERİ-----------------------------
 
-        //FAZLADAN VİEW EKLEYEREK SIKINTILARI ÇÖZMEK LAZIM EKLERKEN
+        //SIKINTILARI(seçili anadalın doktorları gelmeli) ÇÖZMEK LAZIM EKLERKEN
 
         //RANDEVU EKLEME
         public IActionResult RandevuEkle()
@@ -206,7 +253,7 @@ namespace webProgProje.Controllers
             var doktorlar = _combineContext.Doktorlar.Include(x => x.Kullanici).ToList();
             if (r == null)
             {
-                TempData["admin_randevuMesaj"] = "geçerli yazar gir";
+                TempData["admin_randevuMesaj"] = "geçerli randevu gir";
                 return View("AdminRandevuMesaj");
             }
             r.AnadalList = anadallar;
@@ -225,7 +272,7 @@ namespace webProgProje.Controllers
             {
                 _combineContext.Randevular.Update(r);
                 _combineContext.SaveChanges();
-                TempData["admin_randevuMesaj"] = "yazar duzenlendi";
+                TempData["admin_randevuMesaj"] = "randevu duzenlendi";
                 return RedirectToAction("Index");
             }
             TempData["admin_randevuMesaj"] = "tüm alanları doldurun";
@@ -283,7 +330,17 @@ namespace webProgProje.Controllers
 							select Kullanici;
 			return View(kullanicilar);
         }
-        
+        public IActionResult DoktorListele()
+        {
+            //revize edilecek
+            var doktorlar = _combineContext.Doktorlar.Include(x=>x.Kullanici);
+            var s = _combineContext.Kullanicilar.Include(x=>x.Doktor).ToList();
+            return View(s);
+        }
+        public IActionResult HastaListele()
+        {
+            return View();
+        }
     }   
 
 }

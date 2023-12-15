@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webProgProje.Models;
 
@@ -11,9 +12,11 @@ using webProgProje.Models;
 namespace webProgProje.Migrations
 {
     [DbContext(typeof(CombineContext))]
-    partial class CombineContextModelSnapshot : ModelSnapshot
+    [Migration("20231210100139_temel")]
+    partial class temel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,7 +191,7 @@ namespace webProgProje.Migrations
                 b.HasOne("webProgProje.Models.Kullanici", "Kullanici")
                     .WithMany()
                     .HasForeignKey("TC")
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 b.Navigation("Kullanici");
@@ -199,7 +202,7 @@ namespace webProgProje.Migrations
                 b.HasOne("webProgProje.Models.Anadal", "Anadal")
                     .WithMany("DoktorListesi")
                     .HasForeignKey("AnadalID")
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 b.HasOne("webProgProje.Models.Kullanici", "Kullanici")

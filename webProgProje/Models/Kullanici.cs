@@ -35,6 +35,12 @@ namespace webProgProje.Models
 
         [NotMapped]
         public int AnadalID {  get; set; }
+        [NotMapped]
+        public Doktor ?Doktor { get; set; }
+        [NotMapped]
+        public Hasta ?Hasta { get; set; }
 
+        [NotMapped]
+        public List<Anadal> ?AnadalList { get; set; }
     }
 }

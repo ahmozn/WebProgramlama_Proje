@@ -12,6 +12,7 @@ namespace webProgProje.Controllers
         }
         public IActionResult Hesap()
         {
+            //var aktifrandevular=_combineContext.Randevular.Where(x=>x.HastaID==)
             return View();
         }
         public IActionResult RandevuAl()
@@ -21,24 +22,25 @@ namespace webProgProje.Controllers
                              select r;
             return View(randevular);
         }
-        //[HttpPost]
-        //public IActionResult RandevuAl(int id)
-        //{
-        //    if(id == null)
-        //    {
-        //        TempData["hata"] = "ID bilgisi giriniz.";
-        //        return View("HastaHata");
-        //    }
-        //    var r=_combineContext.Randevular.FirstOrDefault(x=>x.RandevuID == id);
-        //    if(r == null)
-        //    {
-        //        TempData["hata"] = "Bu ID'ye sahip randevu bulunamadı.";
-        //        return View("HastaHata");
-        //    }
-        //    Hasta hasta = new Hasta();
-        //    hasta.AktifRandevular.Add(r);
-        //    return RedirectToAction("Hesap");
-        //}
+        [HttpPost]
+        public IActionResult RandevuAl(int? id)
+        {
+            if (id == null)
+            {
+                TempData["hata"] = "ID bilgisi giriniz.";
+                return View("HastaHata");
+            }
+            var r = _combineContext.Randevular.FirstOrDefault(x => x.RandevuID == id);
+            if (r == null)
+            {
+                TempData["hata"] = "Bu ID'ye sahip randevu bulunamadı.";
+                return View("HastaHata");
+            }
+
+            Hasta hasta = new Hasta();
+            hasta.AktifRandevular.Add(r);
+            return RedirectToAction("Hesap");
+        }
 
 
         public IActionResult HastaHata()

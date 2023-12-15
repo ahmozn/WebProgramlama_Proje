@@ -19,12 +19,26 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.HastaID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.HastaID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
 <div>
-    @foreach(var item in Model.AktifRandevular)
+    @if (Model == null)
     {
-        <h3>@item</h3>
+        <h2>model boş</h2>
+    }
+    else
+    {
+        @if (Model.AktifRandevular == null)
+        {
+            <h3>Aktif randevunuz bulunmamaktadır.</h3>
+        }
+        else
+        {
+            foreach (var item in Model.AktifRandevular)
+            {
+                <h3>@item</h3>
+            }
+        }
     }
 </div>

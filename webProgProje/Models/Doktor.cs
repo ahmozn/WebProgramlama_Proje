@@ -14,10 +14,10 @@ namespace webProgProje.Models
 
         [ForeignKey("Kullanici")]
         public string TC {  get; set;}
-        public Kullanici Kullanici { get; set;}
+        public Kullanici ?Kullanici { get; set;}
 
         public int AnadalID {  get; set; }
-        public Anadal Anadal { get; set; }
-        public ICollection<Randevu> AktifRandevular { get; set; }
+        public Anadal ?Anadal { get; set; }
+        public List<Randevu> ?AktifRandevular { get; set; }
     }
 }

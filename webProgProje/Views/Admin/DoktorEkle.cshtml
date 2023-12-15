@@ -9,9 +9,8 @@
     }
 }
 
-<h1>KisiEkle</h1>
+<h1>Doktor Ekle</h1>
 
-<h4>Kullanici</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,6 +25,34 @@
                 <label asp-for="KullaniciTipi" class="control-label"></label>
                 <input asp-for="KullaniciTipi" class="form-control" value="doktor"/>
                 <span asp-validation-for="KullaniciTipi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnadalID" class="control-label"></label>
+                <select asp-for="AnadalID" class="form-control">
+                    <option value="">Anadal Seçiniz...</option>
+                    @foreach (var x in Model.AnadalList)
+                    {
+                        if (x != null)
+                        {
+                            <option value="@x.AnadalID">@x.AnadalAd.ToUpper()</option>
+                        }
+                        else
+                        {
+                            <option value="0">KAYIT BULUNAMADI</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="AnadalID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Doktor.DoktorDerece" class="control-label"></label>
+                <select asp-for="Doktor.DoktorDerece" class="form-control">
+                    <option value="">Uzmanlık Seçiniz...</option>
+                    <option value="prof">Prof</option>
+                    <option value="docent">Doçent</option>
+                    <option value="operator">Operatör</option>
+                </select>
+                <span asp-validation-for="Doktor.DoktorDerece" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ad" class="control-label"></label>
@@ -53,14 +80,14 @@
                 <span asp-validation-for="Sifre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Kaydı Tamamla" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="KisiEklePage">Kişi eklemeye dön</a>
 </div>
 
 @section Scripts {
