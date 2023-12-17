@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -68,7 +69,6 @@ namespace webProgProje.Controllers
         }
 
         //DOKTOR EKLEME
-        //DUZENLEME ŞART(PROF MU DOÇENT Mİ SEÇTİRİLECEK. ANADAL SEÇİLECEK.)
         public IActionResult DoktorEkle()
         {
             Kullanici kullanici=new Kullanici();
@@ -84,12 +84,12 @@ namespace webProgProje.Controllers
             string hata2 = "bu tc'ye sahip bir doktor bulunmaktadır.";
             string valid = k.TC + " tc'li doktor başarıyla eklendi.";
             var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
-            d.TC = k.TC;
-            d.AnadalID = k.AnadalID;
-            d.DoktorDerece = k.Doktor.DoktorDerece;
+
             if (ModelState.IsValid)
             {
-                
+                d.TC = k.TC;
+                d.AnadalID = k.AnadalID;
+                d.DoktorDerece = k.Doktor.DoktorDerece;
                 if (varmi == null)
                 {
                     _combineContext.Kullanicilar.Add(k);

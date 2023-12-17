@@ -22,6 +22,11 @@
                 <span asp-validation-for="TC" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
+                <label asp-for="Doktor.TC" class="control-label"></label>
+                <input asp-for="Doktor.TC" class="form-control" value="0" />
+                <span asp-validation-for="Doktor.TC" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
                 <label asp-for="KullaniciTipi" class="control-label"></label>
                 <input asp-for="KullaniciTipi" class="form-control" value="doktor"/>
                 <span asp-validation-for="KullaniciTipi" class="text-danger"></span>
@@ -30,15 +35,15 @@
                 <label asp-for="AnadalID" class="control-label"></label>
                 <select asp-for="AnadalID" class="form-control">
                     <option value="">Anadal Seçiniz...</option>
-                    @foreach (var x in Model.AnadalList)
+                    @if (Model.AnadalList == null)
                     {
-                        if (x != null)
+                        <option value="">KAYIT BULUNAMADI</option>
+                    }
+                    else
+                    {
+                        @foreach (var x in Model.AnadalList)
                         {
-                            <option value="@x.AnadalID">@x.AnadalAd.ToUpper()</option>
-                        }
-                        else
-                        {
-                            <option value="0">KAYIT BULUNAMADI</option>
+                            <option value="@x.AnadalID">@x.AnadalAd.ToUpper()</option>   
                         }
                     }
                 </select>
