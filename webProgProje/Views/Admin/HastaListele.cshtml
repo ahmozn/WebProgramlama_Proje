@@ -1,0 +1,66 @@
+﻿@model IEnumerable<webProgProje.Models.Kullanici>
+
+@{
+    ViewData["Title"] = "HastaListele";
+}
+<h1>Hastalar</h1>
+<hr />
+
+<p>
+    <a asp-action="KisiEklePage"><button class="btn btn-primary">Yeni kayıt ekle</button></a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.KullaniciTipi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Soyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KullaniciTipi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Soyad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="HastaDuzenle" asp-route-id="@item.TC">Bilgileri Düzenle</a> |
+                    <a asp-action="HastaDetay" asp-route-id="@item.TC">Detayları İncele</a> |
+                    <a asp-action="HastaSil" asp-route-id="@item.TC">Kaydı Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

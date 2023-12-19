@@ -42,5 +42,12 @@ namespace webProgProje.Models
 
         [NotMapped]
         public List<Anadal> ?AnadalList { get; set; }
+
+        public int sifreOlustur()
+        {
+            Random r = new Random();
+            int sifre = r.Next(1000, 9999);
+            return sifre;
+        }
     }
 }
