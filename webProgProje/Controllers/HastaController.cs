@@ -12,7 +12,11 @@ namespace webProgProje.Controllers
         }
         public IActionResult Hesap()
         {
-            //var aktifrandevular=_combineContext.Randevular.Where(x=>x.HastaID==)
+            //var aktifrandevular = _combineContext.Randevular.Where(x => x.HastaID == 1);
+            //foreach (var a in aktifrandevular)
+            //{
+                
+            //}
             return View();
         }
         public IActionResult RandevuAl()

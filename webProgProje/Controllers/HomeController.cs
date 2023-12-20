@@ -89,7 +89,7 @@ namespace webProgProje.Controllers
                     _combineContext.Hastalar.Add(h);
                     _combineContext.SaveChanges();
                     TempData["signup"] = valid;
-                    return RedirectToAction("Hesap");
+                    return RedirectToAction("Hesap","Hasta");
                 }
                 else
                 {

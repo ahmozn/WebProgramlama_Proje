@@ -281,13 +281,23 @@ namespace webProgProje.Controllers
         }
 
         //HASTA SILME
-        public IActionResult HastaSil()
-        {
-            return View();
-        }
-        [HttpPost]
         public IActionResult HastaSil(string? id)
         {
+            if (id == null || _combineContext.Hastalar == null)
+            {
+                return NotFound();
+            }
+            var hasta= _combineContext.Kullanicilar.FirstOrDefault(x=>x.TC==id);
+            if (hasta == null)
+            {
+                return NotFound();
+            }
+            return View(hasta);
+        }
+        [HttpPost]
+        public IActionResult HastaSilTamam(string? id)
+        {
+            //id null geliyor surekli
             if (id is null)
             {
                 TempData["admin_kisiEkle"] = "boş geçme";
