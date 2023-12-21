@@ -83,6 +83,14 @@ namespace webProgProje.Controllers
             var hastalar = _combineContext.Kullanicilar.Where(x => x.KullaniciTipi == "hasta").ToList();
             return View(hastalar);
         }
+        //RANDEVU LİSTELEME
+        public IActionResult RandevuListele()
+        {
+            //düzgün göstermiyor tarihle saati
+            //doktor adı anadaladı gçrünmüyor
+            var randevular = _combineContext.Randevular.Include(x => x.Doktor).ToList();
+            return View(randevular);
+        }
 
         //EKLEME BÖLÜMÜ
         public IActionResult KisiEklePage()
@@ -116,7 +124,6 @@ namespace webProgProje.Controllers
                 if (varmi == null)
                 {
                     _combineContext.Kullanicilar.Add(k);
-                    _combineContext.SaveChanges();
                     _combineContext.Doktorlar.Add(d);
                     _combineContext.SaveChanges();
                     TempData["admin_kisiEkle"] = valid;
@@ -164,7 +171,6 @@ namespace webProgProje.Controllers
             if (ModelState.IsValid)
             {
                 _combineContext.Kullanicilar.Update(k);
-                _combineContext.SaveChanges();
                 _combineContext.Doktorlar.Update(d);
                 _combineContext.SaveChanges();
                 TempData["admin_kisiEkle"] = "doktor duzenlendi";
@@ -209,7 +215,8 @@ namespace webProgProje.Controllers
         //HASTA EKLEME
         public IActionResult HastaEkle()
         {
-            return View();
+            Kullanici k = new Kullanici();//random pass fonk calıssın diye
+            return View(k);
         }
         [HttpPost]
         public IActionResult HastaEkle(Kullanici k)
@@ -225,7 +232,6 @@ namespace webProgProje.Controllers
                 if (varmi == null)
                 {
                     _combineContext.Kullanicilar.Add(k);
-                    _combineContext.SaveChanges();
                     _combineContext.Hastalar.Add(h);
                     _combineContext.SaveChanges();
                     TempData["admin_kisiEkle"] = valid;
@@ -270,7 +276,6 @@ namespace webProgProje.Controllers
             {
                 h.TC = k.TC;
                 _combineContext.Kullanicilar.Update(k);
-                _combineContext.SaveChanges();
                 _combineContext.Hastalar.Update(h);
                 _combineContext.SaveChanges();
                 TempData["admin_kisiEkle"] = "Hasta düzenleme başarılı, TC: "+k.TC;
@@ -294,10 +299,9 @@ namespace webProgProje.Controllers
             }
             return View(hasta);
         }
-        [HttpPost]
+        [HttpPost,ActionName("HastaSil")]
         public IActionResult HastaSilTamam(string? id)
         {
-            //id null geliyor surekli
             if (id is null)
             {
                 TempData["admin_kisiEkle"] = "boş geçme";
@@ -316,7 +320,7 @@ namespace webProgProje.Controllers
             }
             _combineContext.Kullanicilar.Remove(h);
             _combineContext.SaveChanges();
-            TempData["admin_kisiEkle"] = h.TC + " TC'li doktor başarıyla silindi.";
+            TempData["admin_kisiEkle"] = h.TC + " TC'li hasta başarıyla silindi.";
             return RedirectToAction("AdminKisiMesaj", "Admin");
         }
 
@@ -326,14 +330,7 @@ namespace webProgProje.Controllers
 
         //SIKINTILARI(seçili anadalın doktorları gelmeli) ÇÖZMEK LAZIM EKLERKEN
 
-        //RANDEVU LİSTELEME
-        public IActionResult RandevuListele()
-        {
-            var randevular = from r in _combineContext.Randevular
-                             select r;
-
-            return View(randevular);
-        }
+        
 
         //RANDEVU EKLEME
         public IActionResult RandevuEkle()
