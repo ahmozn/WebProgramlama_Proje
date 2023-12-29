@@ -9,7 +9,7 @@ namespace webProgProje.Models
         public int HastaID {  get; set; }
 
         [ForeignKey("Kullanici")]
-        public string TC {  get; set; }
+        public string Id {  get; set; }
         public Kullanici ?Kullanici { get; set; }
 
         public List<Randevu> ?AktifRandevular { get; set; }

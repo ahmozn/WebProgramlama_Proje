@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webProgProje.Models
 {
-    public class Kullanici
+    public class Kullanici:IdentityUser
     {
-        [Key]
+        
         [StringLength(11)]
         public string TC { get; set; }
 

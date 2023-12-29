@@ -30,10 +30,14 @@ namespace webProgProje.Controllers
         //GİRİŞ İŞLEMİ
         public IActionResult LoginPage()
         {
-            if (HttpContext.Session.GetString("SessionUser") is not null)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index");
             }
+            //if (HttpContext.Session.GetString("SessionUser") is not null)
+            //{
+            //    return RedirectToAction("Index");
+            //}
             return View();
         }
         [HttpPost]
@@ -81,7 +85,7 @@ namespace webProgProje.Controllers
             var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
             if (ModelState.IsValid)
             {
-                h.TC = k.TC;
+                h.Id = k.Id;
                 if (varmi == null)
                 {
                     _combineContext.Kullanicilar.Add(k);
@@ -111,10 +115,11 @@ namespace webProgProje.Controllers
         //RANDEVU AL SECENEGI
         public IActionResult RandevuAl()
         {
-            if (HttpContext.Session.GetString("SessionUser") is null)
+            //identity yonlendirme
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 TempData["msj"] = "Lütfen giriş yapınız.";
-                return RedirectToAction("LoginPage");
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
             return RedirectToAction("RandevuListele","Hasta");
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using webProgProje.Models;
 
 namespace webProgProje.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
         private CombineContext _combineContext=new CombineContext();
@@ -28,42 +30,6 @@ namespace webProgProje.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //public IActionResult KisiEkle(Kullanici k)
-        //{
-        //    //Doktor d = new Doktor();
-        //    //Hasta h = new Hasta();
-        //    string hata = "ekleme başarısız";
-        //    string hata2 = "bu tc'ye sahip bir kullanıcı bulunmaktadır.";
-        //    string valid = k.TC + " tc'li kullanıcı başarıyla eklendi.";
-        //    var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (varmi == null)
-        //        {
-        //            _combineContext.Kullanicilar.Add(k);
-        //            _combineContext.SaveChanges();
-        //            //if (k.KullaniciTipi == "doktor")
-        //            //{
-        //            //    doktorEkle(d);
-        //            //}
-        //            //else if (k.KullaniciTipi == "hasta")
-        //            //{
-        //            //    hastaEkle(h);
-        //            //}
-        //            TempData["admin_kisiEkle"] = valid;
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            TempData["admin_kisiEkle"] = hata2;
-        //            return RedirectToAction("AdminKisiMesaj");
-        //        }
-        //    }
-        //    TempData["admin_kisiEkle"] = hata;
-        //    return RedirectToAction("AdminKisiMesaj");
-        //}
 
         //LİSTELEME İŞLEMLERİ
         public IActionResult KullaniciListele()
@@ -88,7 +54,7 @@ namespace webProgProje.Controllers
         {
             //düzgün göstermiyor tarihle saati
             //doktor adı anadaladı gçrünmüyor
-            var randevular = _combineContext.Randevular.Include(x => x.Doktor).ToList();
+            var randevular = _combineContext.Randevular.Where(x=>x.Durum==true).Include(x => x.Doktor).ToList();
             return View(randevular);
         }
 
@@ -115,10 +81,10 @@ namespace webProgProje.Controllers
             string hata = "ekleme başarısız";
             string hata2 = "bu tc'ye sahip bir doktor bulunmaktadır.";
             string valid = k.TC + " tc'li doktor başarıyla eklendi.";
-            var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
+            var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.Id == k.Id);
             if (ModelState.IsValid)
             {
-                d.TC = k.TC;
+                d.Id = k.Id;
                 d.AnadalID = k.AnadalID;
                 d.DoktorDerece = k.Doktor.DoktorDerece;
                 if (varmi == null)
@@ -148,10 +114,10 @@ namespace webProgProje.Controllers
                 return View("AdminKisiMesaj");
             }
             var d = _combineContext.Kullanicilar.Where(x=>x.KullaniciTipi=="doktor").Include(x => x.Doktor)
-                .FirstOrDefault(x=>x.TC==id);
+                .FirstOrDefault(x=>x.Id==id);
             if (d== null)
             {
-                TempData["admin_kisiEkle"] = "geçerli doktor gir";
+                TempData["admin_kisiEkle"] = "doktor bulunamadı";
                 return View("AdminKisiMesaj");
             }
             if(d.Doktor.AktifRandevular is not null)
@@ -166,7 +132,7 @@ namespace webProgProje.Controllers
         public IActionResult DoktorDuzenle(string? id, Kullanici k)
         {
             Doktor d=new Doktor();
-            d.TC = k.TC;
+            d.Id = k.Id;
             d.AnadalID = k.AnadalID;
             if (ModelState.IsValid)
             {
@@ -193,7 +159,7 @@ namespace webProgProje.Controllers
                 TempData["admin_kisiEkle"] = "boş geçme";
                 return View("AdminKisiMesaj");
             }
-            var d = _combineContext.Kullanicilar.Include(x=>x.Doktor).FirstOrDefault(x => x.TC == id);
+            var d = _combineContext.Kullanicilar.Include(x=>x.Doktor).FirstOrDefault(x => x.Id == id);
             if (d== null)
             {
                 TempData["admin_kisiEkle"] = "geçerli doktor giriniz";
@@ -210,6 +176,7 @@ namespace webProgProje.Controllers
             return RedirectToAction("AdminKisiMesaj", "Admin");
         }
 
+
         //-------------------------------HASTA İŞLEMLERİ---------------------------------
 
         //HASTA EKLEME
@@ -225,10 +192,10 @@ namespace webProgProje.Controllers
             string hata = "ekleme başarısız";
             string hata2 = "bu tc'ye sahip bir kayıt bulunmaktadır.";
             string valid = k.TC + " tc'li hasta başarıyla eklendi.";
-            var varmi = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == k.TC);
+            var varmi = _combineContext.Users.FirstOrDefault(x => x.Id == k.Id);
             if (ModelState.IsValid)
             {
-                h.TC = k.TC;
+                h.Id = k.Id;
                 if (varmi == null)
                 {
                     _combineContext.Kullanicilar.Add(k);
@@ -255,7 +222,7 @@ namespace webProgProje.Controllers
                 TempData["admin_kisiEkle"] = "boş gecme";
                 return View("AdminKisiMesaj");
             }
-            var h = _combineContext.Kullanicilar.FirstOrDefault(x => x.TC == id);
+            var h = _combineContext.Kullanicilar.FirstOrDefault(x => x.Id == id);
             if (h == null)
             {
                 TempData["admin_kisiEkle"] = "geçerli hasta gir";
@@ -267,14 +234,14 @@ namespace webProgProje.Controllers
         public IActionResult HastaDuzenle(string? id, Kullanici k)
         {
             Hasta h = new Hasta();
-            if (id != k.TC)
+            if (id != k.Id)
             {
                 TempData["admin_kisiEkle"] = "hop hemşerim nereye";
                 return View("AdminKisiMesaj");
             }
             if (ModelState.IsValid)
             {
-                h.TC = k.TC;
+                h.Id = k.Id;
                 _combineContext.Kullanicilar.Update(k);
                 _combineContext.Hastalar.Update(h);
                 _combineContext.SaveChanges();
@@ -292,7 +259,7 @@ namespace webProgProje.Controllers
             {
                 return NotFound();
             }
-            var hasta= _combineContext.Kullanicilar.FirstOrDefault(x=>x.TC==id);
+            var hasta= _combineContext.Kullanicilar.FirstOrDefault(x=>x.Id==id);
             if (hasta == null)
             {
                 return NotFound();
@@ -307,7 +274,7 @@ namespace webProgProje.Controllers
                 TempData["admin_kisiEkle"] = "boş geçme";
                 return View("AdminKisiMesaj");
             }
-            var h = _combineContext.Kullanicilar.Include(x => x.Hasta).FirstOrDefault(x => x.TC == id);
+            var h = _combineContext.Kullanicilar.Include(x => x.Hasta).FirstOrDefault(x => x.Id == id);
             if (h == null)
             {
                 TempData["admin_kisiEkle"] = "geçerli hasta giriniz";

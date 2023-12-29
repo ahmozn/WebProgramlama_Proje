@@ -14,6 +14,7 @@ namespace webProgProje.Models
         [MaxLength(30)]
         public string AnadalAd { get; set; }
 
+        [NotMapped]
         public ICollection<Doktor> DoktorListesi { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +11,7 @@ namespace webProgProje.Models
         public int AdminID { get; set; }
 
         [ForeignKey("Kullanici")]
-        public string TC {  get; set; }
+        public string Id {  get; set; }
         public Kullanici Kullanici { get; set; }
 
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webProgProje.Models;
 
@@ -11,9 +12,11 @@ using webProgProje.Models;
 namespace webProgProje.Migrations
 {
     [DbContext(typeof(CombineContext))]
-    partial class CombineContextModelSnapshot : ModelSnapshot
+    [Migration("20231229133650_calis")]
+    partial class calis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
