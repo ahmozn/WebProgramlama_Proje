@@ -31,9 +31,11 @@ namespace webProgProje.Models
         public Hasta ?Hasta { get; set; }
 
         [NotMapped]
+        public DateTime dateANDtime { get; set; }
+        [NotMapped]
         public List<Anadal> ?AnadalList { get; set; }
         [NotMapped]
-        public List<Doktor> ?DoktorList { get; set; } 
+        public List<Doktor> ?DoktorList { get; set; }
 
     }
 }

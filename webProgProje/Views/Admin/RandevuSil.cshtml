@@ -9,28 +9,35 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RandevuDate)
+            Tarih
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RandevuDate)
+            @Model.RandevuDate.ToShortDateString()
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RandevuTime)
+            Saat
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RandevuTime)
+            @Model.RandevuTime.ToShortTimeString()
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Durum)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Durum)
+            @if (Model.Durum == true)
+            {
+                <p style="color:red">Aktif</p>
+            }
+            else
+            {
+                <p style="color:green">Aktif değil</p>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Doktor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Doktor.DoktorDerece)
+            @Html.DisplayFor(model => model.Doktor.Kullanici.Ad)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Anadal)
@@ -41,6 +48,16 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Hasta)
         </dt>
+        <dd class="col-sm-10">
+            @if(Model.Hasta is null)
+            {
+                <p>Randevuya ait hasta bulunmuyor</p>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Hasta.Kullanici.TC)
+            }
+        </dd>
     </dl>
     <hr />
     <form asp-action="RandevuSil">

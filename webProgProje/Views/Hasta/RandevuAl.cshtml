@@ -3,29 +3,21 @@
 
 <h1>Randevu Al</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RandevuDate)
+                Tarih
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RandevuTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Durum)
+                Saat
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Doktor)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Anadal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hasta)
             </th>
             <th></th>
         </tr>
@@ -34,22 +26,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RandevuDate)
+                @item.RandevuDate.ToShortDateString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RandevuTime)
+                @item.RandevuTime.ToShortTimeString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Durum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Doktor.Kullanici.Ad)
+                @Html.DisplayFor(modelItem => item.DoktorID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AnadalID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HastaID)
             </td>
             <td>    
                 <a asp-controller="Hasta" asp-action="RandevuAl" asp-route-id="@item.RandevuID"><button type="button" class="btn btn-primary">Randevu Al</button></a>

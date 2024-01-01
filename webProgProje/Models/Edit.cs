@@ -1,44 +1,34 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Azure.Core;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using webProgProje.Areas.Identity.Data;
-using webProgProje.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
+using System.Text.Encodings.Web;
+using System.Text;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace webProgProje.Areas.Identity.Pages.Account
+#nullable disable
+namespace webProgProje.Models
 {
-    public class RegisterModel : PageModel
+    public class Edit:PageModel
     {
         private CombineContext _combineContext;
         private readonly SignInManager<Kullanici> _signInManager;
         private readonly UserManager<Kullanici> _userManager;
         private readonly IUserStore<Kullanici> _userStore;
         private readonly IUserEmailStore<Kullanici> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<Edit> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public Edit(
             CombineContext combineContext,
             UserManager<Kullanici> userManager,
             IUserStore<Kullanici> userStore,
             SignInManager<Kullanici> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<Edit> logger,
             IEmailSender emailSender)
         {
             _combineContext = combineContext;
@@ -82,7 +72,7 @@ namespace webProgProje.Areas.Identity.Pages.Account
             /// 
             [Required]
             [StringLength(11)]
-            [Display(Name ="TC")]
+            [Display(Name = "TC")]
             public string TC { get; set; }
 
             [Required]
@@ -92,17 +82,17 @@ namespace webProgProje.Areas.Identity.Pages.Account
             [Required]
             [MaxLength(50)]
             [Display(Name = "Ad")]
-            public string Ad {  get; set; }
+            public string Ad { get; set; }
 
             [Required]
             [MaxLength(50)]
-            [Display(Name ="Soyad")]
+            [Display(Name = "Soyad")]
             public string Soyad { get; set; }
 
             [Phone]
             [Required]
             [StringLength(11)]
-            [Display(Name ="Telefon")]
+            [Display(Name = "Telefon")]
             public string Telefon { get; set; }
 
             [Required]
@@ -144,25 +134,21 @@ namespace webProgProje.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                var hasta=CreateUserHasta();
+                var doktor = CreateUserDoktor();
                 user.TC = Input.TC;
                 user.KullaniciTipi = Input.KullaniciTipi;
-                user.Ad=Input.Ad;
-                user.Soyad=Input.Soyad;
+                user.Ad = Input.Ad;
+                user.Soyad = Input.Soyad;
                 user.Telefon = Input.Telefon;
                 user.Email = Input.Email;
                 user.Sifre = Input.Sifre;
-                hasta.Id = user.Id;
-                if (user.Telefon.StartsWith("05") != true)
-                {
-                    ViewData["registerPhoneError"] = "Telefon numaranızı kontrol ediniz.";
-                    return Page();
-                }
+                //user.Doktor.AnadalID=Input.TC
+                doktor.Id = user.Id;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Sifre);
                 _combineContext.Kullanicilar.Add(user);
-                _combineContext.Hastalar.Add(hasta);
+                _combineContext.Doktorlar.Add(doktor);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -212,16 +198,16 @@ namespace webProgProje.Areas.Identity.Pages.Account
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
-        private Hasta CreateUserHasta()
+        private Doktor CreateUserDoktor()
         {
             try
             {
-                return Activator.CreateInstance<Hasta>();
+                return Activator.CreateInstance<Doktor>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Hasta)}'. " +
-                    $"Ensure that '{nameof(Hasta)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Doktor)}'. " +
+                    $"Ensure that '{nameof(Doktor)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
@@ -236,3 +222,4 @@ namespace webProgProje.Areas.Identity.Pages.Account
         }
     }
 }
+

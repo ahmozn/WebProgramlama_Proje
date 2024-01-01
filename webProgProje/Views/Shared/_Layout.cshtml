@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using webProgProje.Languages
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer _viewLocalizer;
+@inject IStringLocalizer<Lang> _stringLocalizer;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,22 +25,22 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Anasayfa">Anasayfa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Hesap">Hesabım</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LoginPage">Giriş Yap</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Signup">Üye Ol</a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
+                        @if (!User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin Paneli</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Anasayfa">@ViewBag.PageHome</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="CallKullaniciApi" asp-action="Index">API Çağırma</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="CallKullaniciApi" asp-action="Index">API Çağırma</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin Panel</a>
                             </li>
                         }
                     </ul>

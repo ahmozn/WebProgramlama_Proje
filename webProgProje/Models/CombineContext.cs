@@ -7,8 +7,6 @@ using webProgProje.Areas.Identity.Data;
 
 namespace webProgProje.Models
 {
-    //bu classı kullanarak veri işlemeye çalışmalıyım
-    //olur da işe yararsa komple bundan yürüyecem
     public class CombineContext:IdentityDbContext<DbKullanici>
     {
         public DbSet<Kullanici> Kullanicilar {  get; set; } 

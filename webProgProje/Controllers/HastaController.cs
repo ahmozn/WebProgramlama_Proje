@@ -31,13 +31,13 @@ namespace webProgProje.Controllers
         {
             if (id == null)
             {
-                TempData["hata"] = "ID bilgisi giriniz.";
+                ViewData["hata"] = "ID bilgisi giriniz.";
                 return View("HastaHata");
             }
             var r = _combineContext.Randevular.FirstOrDefault(x => x.RandevuID == id);
             if (r == null)
             {
-                TempData["hata"] = "Bu ID'ye sahip randevu bulunamadı.";
+                ViewData["hata"] = "Bu ID'ye sahip randevu bulunamadı.";
                 return View("HastaHata");
             }
 

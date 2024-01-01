@@ -13,5 +13,11 @@ namespace webProgProje.Models
         public Kullanici ?Kullanici { get; set; }
 
         public List<Randevu> ?AktifRandevular { get; set; }
+        public Hasta()
+        {
+            CombineContext _combineContext = new CombineContext();
+            Id = "";
+            AktifRandevular = _combineContext.Randevular.Where(x => x.HastaID == HastaID).ToList();
+        }
     }
 }

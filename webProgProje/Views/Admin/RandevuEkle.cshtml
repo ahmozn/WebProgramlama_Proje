@@ -1,14 +1,4 @@
 ﻿@model webProgProje.Models.Randevu
-@{
-    
-    //ANADALA GÖRE DOKTOR GETİRMEK İÇİN ONCHANGE YAZMAM LAZIM
-
-
-    // List<Doktor> OnSelect()
-    // {
-        
-    // }
-}
 
 
 <h1>RandevuEkle</h1>
@@ -20,33 +10,31 @@
         <form asp-action="RandevuEkle">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="RandevuDate" class="control-label"></label>
-                <input asp-for="RandevuDate" class="form-control" />
-                <span asp-validation-for="RandevuDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RandevuTime" class="control-label"></label>
-                <input asp-for="RandevuTime" class="form-control" />
-                <span asp-validation-for="RandevuTime" class="text-danger"></span>
+                <label asp-for="dateANDtime" class="control-label"></label>
+                <input asp-for="dateANDtime" class="form-control" value="@Model.dateANDtime.ToShortDateString()"/>
+                <span asp-validation-for="dateANDtime" class="text-danger"></span>
             </div>
             <div class="form-group form-check" hidden>
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Durum" value="true"/>
+                    <input class="form-check-input" asp-for="Durum" value="True"/>
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="AnadalID" class="control-label"></label>
                 <select asp-for="AnadalID" class="form-control">
                     <option value="">Anadal Seçiniz...</option>
-                    @foreach (var x in Model.AnadalList)
+                    @if(Model.AnadalList is not null)
                     {
-                        if (x != null)
+                        @foreach (var x in Model.AnadalList)
                         {
-                            <option value="@x.AnadalID">@x.AnadalAd.ToUpper()</option>
-                        }
-                        else
-                        {
-                            <option value="0">KAYIT BULUNAMADI</option>
+                            if (x != null)
+                            {
+                                <option value="@x.AnadalID">@x.AnadalAd.ToUpper()</option>
+                            }
+                            else
+                            {
+                                <option value="0">KAYIT BULUNAMADI</option>
+                            }
                         }
                     }
                 </select>
@@ -56,20 +44,24 @@
                 <label asp-for="DoktorID" class="control-label"></label>
                 <select asp-for="DoktorID" class ="form-control" >
                     <option value="">Doktor Seçiniz...</option>
-                    
-                    @foreach(var x in Model.DoktorList)
+                    @if(Model.DoktorList is not null)
                     {
-                        if(x != null)
-                        { 
-                            @* if (x.AnadalID ==Html.ValueFor("AnadalID"))
-                            {
-                                <option value="@((int)x.DoktorID)">@x.DoktorDerece.ToUpper() &nbsp 
-                                        @x.Kullanici.Ad.ToUpper() &nbsp @x.Kullanici.Soyad.ToUpper()</option>
-                            } *@
-                        }
-                        else
+                        @foreach (var x in Model.DoktorList)
                         {
-                            <option value="0">KAYIT BULUNAMADI</option>
+                            if (x != null)
+                            {
+                                <optgroup label="@x.Anadal.AnadalAd">
+                                <option value="@((int)x.DoktorID)">
+                                        @x.DoktorDerece.ToUpper() &nbsp
+                                        @x.Kullanici.Ad.ToUpper() &nbsp @x.Kullanici.Soyad.ToUpper()
+                                </option>
+                                ------------------
+                                </optgroup>
+                            }
+                            else
+                            {
+                                <option value="0">KAYIT BULUNAMADI</option>
+                            }
                         }
                     }
                 </select>

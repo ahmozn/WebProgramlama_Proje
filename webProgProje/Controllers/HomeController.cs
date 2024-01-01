@@ -1,23 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using webProgProje.Languages;
 using webProgProje.Models;
 
 namespace webProgProje.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHtmlLocalizer<Lang> _htmlLocalizer;
+        public HomeController(IHtmlLocalizer<Lang> htmlLocalizer)
+            => _htmlLocalizer = htmlLocalizer;
+        //private readonly ILogger<HomeController> _logger;
         private CombineContext _combineContext=new CombineContext();
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         //ANASAYFA VIEW
-        public IActionResult Anasayfa()
+        public IActionResult Anasayfa(string culture="tr-TR")
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToActionPermanent("Index", "Admin");
+            }
+            ViewBag.PageAbout = _htmlLocalizer["page.About"];
+            ViewBag.PageHome = _htmlLocalizer["page.Home"];
             return View();
         }
 
@@ -27,17 +38,16 @@ namespace webProgProje.Controllers
             return RedirectToAction("LoginPage");
         }
 
+
+        //IDENTITY OLMADAN GIRIS CIKIS FALAN FILAN
+        /*
         //GİRİŞ İŞLEMİ
         public IActionResult LoginPage()
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Anasayfa");
             }
-            //if (HttpContext.Session.GetString("SessionUser") is not null)
-            //{
-            //    return RedirectToAction("Index");
-            //}
             return View();
         }
         [HttpPost]
@@ -61,7 +71,7 @@ namespace webProgProje.Controllers
                     return RedirectToActionPermanent("Index", "Admin");
                 }
             }
-            TempData["hata"] = "kullanıcı adı veya şifre hatalı";
+            ViewData["hata"] = "kullanıcı adı veya şifre hatalı";
             return RedirectToAction("LoginPage");
         }
 
@@ -75,7 +85,7 @@ namespace webProgProje.Controllers
         {
             if (k.Telefon.StartsWith("05") != true)
             {
-                TempData["signup"] = "Telefon numaranızı kontrol ediniz.";
+                ViewData["signup"] = "Telefon numaranızı kontrol ediniz.";
                 return RedirectToAction("Signup");
             }
             Hasta h = new Hasta();
@@ -92,16 +102,16 @@ namespace webProgProje.Controllers
                     _combineContext.SaveChanges();
                     _combineContext.Hastalar.Add(h);
                     _combineContext.SaveChanges();
-                    TempData["signup"] = valid;
+                    ViewData["signup"] = valid;
                     return RedirectToAction("Hesap","Hasta");
                 }
                 else
                 {
-                    TempData["signup"] = hata2;
+                    ViewData["signup"] = hata2;
                     return RedirectToAction("Signup");
                 }
             }
-            TempData["signup"] = hata;
+            ViewData["signup"] = hata;
             return RedirectToAction("Anasayfa");
         }
 
@@ -111,6 +121,7 @@ namespace webProgProje.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Anasayfa");
         }
+        */
 
         //RANDEVU AL SECENEGI
         public IActionResult RandevuAl()
@@ -118,10 +129,10 @@ namespace webProgProje.Controllers
             //identity yonlendirme
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                TempData["msj"] = "Lütfen giriş yapınız.";
+                ViewData["msj"] = "Lütfen giriş yapınız.";
                 return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
-            return RedirectToAction("RandevuListele","Hasta");
+            return RedirectToAction("RandevuAl","Hasta");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

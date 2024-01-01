@@ -23,12 +23,9 @@ namespace webProgProje.Models
         public Doktor()
         {
             CombineContext _combineContext= new CombineContext();
-            this.AktifRandevular = new List<Randevu>();
-            var randevular = _combineContext.Randevular.Where(x => x.DoktorID == DoktorID);
-            foreach(var item in randevular)
-            {
-                AktifRandevular.Add(item);
-            }
+            Id = "";
+            DoktorDerece = "";
+            AktifRandevular = _combineContext.Randevular.Where(x => x.DoktorID == DoktorID).ToList();
         }
     }
 }

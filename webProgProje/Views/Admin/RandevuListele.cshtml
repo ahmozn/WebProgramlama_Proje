@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "RandevuListele";
 }
-@if (TempData["admin_randevuMesaj"]is not null)
+@if (ViewData["admin_randevuMesaj"]is not null)
 {
-    <h3 class="text-danger">@TempData["admin_randevuMesaj"]</h3>
+    <h3 class="text-success">@ViewData["admin_randevuMesaj"]</h3>
 }
 <h1>RandevuListele</h1>
 
@@ -16,10 +16,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RandevuDate)
+                Tarih
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RandevuTime)
+                Saat
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Durum)
@@ -37,13 +37,21 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RandevuDate)
+                @item.RandevuDate.ToShortDateString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RandevuTime)
+                @item.RandevuTime.ToShortTimeString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Durum)
+                    @if (item.Durum == true)
+                    {
+                        <p style="color:green">Mevcut</p>
+                    }
+                    else
+                    {
+                        <p style="color:red">Mevcut değil</p>
+                    }
+                    
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Doktor.Kullanici.Ad)

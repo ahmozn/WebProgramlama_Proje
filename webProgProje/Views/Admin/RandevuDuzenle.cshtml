@@ -14,14 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RandevuID" />
             <div class="form-group">
-                <label asp-for="RandevuDate" class="control-label"></label>
-                <input asp-for="RandevuDate" class="form-control" />
-                <span asp-validation-for="RandevuDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RandevuTime" class="control-label"></label>
-                <input asp-for="RandevuTime" class="form-control" />
-                <span asp-validation-for="RandevuTime" class="text-danger"></span>
+                <label asp-for="dateANDtime" class="control-label">Tarih ve Saat</label>
+                <input asp-for="dateANDtime" class="form-control" value=""/>
+                <span asp-validation-for="dateANDtime" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -29,7 +24,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="AnadalID" class="control-label"></label>
+                <label asp-for="AnadalID" class="control-label">Anadal</label>
                 <select asp-for="AnadalID" class="form-control">
                     <option value="">Doktor Seçiniz...</option>
                     @foreach (var x in Model.AnadalList ?? new List<Anadal>())
@@ -47,7 +42,7 @@
                 <span asp-validation-for="AnadalID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DoktorID" class="control-label"></label>
+                <label asp-for="DoktorID" class="control-label">Doktor</label>
                 <select asp-for="DoktorID" class="form-control">
                     <option value="">Doktor Seçiniz...</option>
                     @foreach (var x in Model.DoktorList ?? new List<Doktor>())

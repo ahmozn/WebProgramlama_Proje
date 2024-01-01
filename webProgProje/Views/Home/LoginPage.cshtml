@@ -3,13 +3,13 @@
 @{
     ViewData["Title"] = "Login";
 }
-@if(TempData["hata"] is not null)
+@if(ViewData["hata"] is not null)
 {
-    <div class="alert alert-danger">@TempData["hata"]</div>
+    <div class="alert alert-danger">@ViewData["hata"]</div>
 }
-@if(TempData["msj"] is not null)
+@if(ViewData["msj"] is not null)
 {
-    <div class="alert alert-danger">@TempData["msj"]</div>
+    <div class="alert alert-danger">@ViewData["msj"]</div>
 }
 <h1>Giriş Yap</h1>
 

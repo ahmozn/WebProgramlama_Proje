@@ -18,6 +18,9 @@
                 @Html.DisplayNameFor(model => model.KullaniciTipi)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.TC)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Ad)
             </th>
             <th>
@@ -39,6 +42,9 @@
                 @Html.DisplayFor(modelItem => item.KullaniciTipi)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.TC)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Ad)
             </td>
             <td>
@@ -50,20 +56,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
-                    @if (Model.Where(x => x.KullaniciTipi == "doktor") is null)
-                    {
-                        <a asp-action="DoktorDuzenle" asp-route-id="@item.Id">Bilgileri Düzenle</a>  
-                        <a asp-action="DoktorDetay" asp-route-id="@item.Id">Detayları İncele</a>
-                        <a asp-action="DoktorSil" asp-route-id="@item.Id">Kaydı Sil</a>
-                    }
-                    else
-                    {
-                        <a asp-action="HastaDuzenle" asp-route-id="@item.Id">Bilgileri Düzenle</a>
-                        <a asp-action="HastaDetay" asp-route-id="@item.Id">Detayları İncele</a>
-                        <a asp-action="HastaSil" asp-route-id="@item.Id">Kaydı Sil</a>
-                    }
-                </td>
         </tr>
 }
     </tbody>

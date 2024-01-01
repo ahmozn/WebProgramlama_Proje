@@ -2,17 +2,17 @@
 	string hata = "ekleme başarısız";
 	string hata1 = "bu tc'ye sahip bir kullanıcı bulunmaktadır.";
 }
-@if (TempData["admin_kisiEkle"] is not null)
+@if (ViewData["admin_kisiEkle"] is not null)
 {
-	if (TempData["admin_kisiEkle"] == hata)
+	if (ViewData["admin_kisiEkle"] == hata)
 	{
-		<h2 class="alert-danger">@TempData["admin_kisiEkle"]</h2>
+		<h2 class="alert-danger">@ViewData["admin_kisiEkle"]</h2>
 	}
-	else if (TempData["admin_kisiEkle"] == hata1)
+	else if (ViewData["admin_kisiEkle"] == hata1)
 	{
-		<h2 class="alert-danger">@TempData["admin_kisiEkle"]</h2>
+		<h2 class="alert-danger">@ViewData["admin_kisiEkle"]</h2>
 	}
-	<h2 class="alert-success">@TempData["admin_kisiEkle"]</h2>
+	<h2 class="alert-success">@ViewData["admin_kisiEkle"]</h2>
 }
 <h1>ADMIN CONTROLLER INDEX SAYFASI</h1>
 
