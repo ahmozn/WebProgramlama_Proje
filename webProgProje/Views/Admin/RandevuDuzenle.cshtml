@@ -45,16 +45,24 @@
                 <label asp-for="DoktorID" class="control-label">Doktor</label>
                 <select asp-for="DoktorID" class="form-control">
                     <option value="">Doktor Seçiniz...</option>
-                    @foreach (var x in Model.DoktorList ?? new List<Doktor>())
+                    @if (Model.DoktorList is not null)
                     {
-                        @if (x != null)
+                        @foreach (var x in Model.DoktorList)
                         {
-                            <option value="@((int)x.DoktorID)">@x.DoktorDerece.ToUpper() &nbsp 
-                                @x.Kullanici.Ad.ToUpper() &nbsp; @x.Kullanici.Soyad.ToUpper()</option>
-                        }
-                        else
-                        {
-                            <option value="0">KAYIT BULUNAMADI</option>
+                            if (x != null)
+                            {
+                                <optgroup label="@x.Anadal.AnadalAd">
+                                    <option value="@((int)x.DoktorID)">
+                                        @x.DoktorDerece.ToUpper() &nbsp
+                                        @x.Kullanici.Ad.ToUpper() &nbsp @x.Kullanici.Soyad.ToUpper()
+                                    </option>
+                                    ------------------
+                                </optgroup>
+                            }
+                            else
+                            {
+                                <option value="0">KAYIT BULUNAMADI</option>
+                            }
                         }
                     }
                 </select>

@@ -10,7 +10,7 @@
         <form asp-action="RandevuEkle">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="dateANDtime" class="control-label"></label>
+                <label asp-for="dateANDtime" class="control-label">Tarih ve Saat</label>
                 <input asp-for="dateANDtime" class="form-control" value="@Model.dateANDtime.ToShortDateString()"/>
                 <span asp-validation-for="dateANDtime" class="text-danger"></span>
             </div>
@@ -20,7 +20,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="AnadalID" class="control-label"></label>
+                <label asp-for="AnadalID" class="control-label">Anadal</label>
                 <select asp-for="AnadalID" class="form-control">
                     <option value="">Anadal Seçiniz...</option>
                     @if(Model.AnadalList is not null)
@@ -41,7 +41,7 @@
                 <span asp-validation-for="AnadalID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DoktorID" class="control-label"></label>
+                <label asp-for="DoktorID" class="control-label">Doktor</label>
                 <select asp-for="DoktorID" class ="form-control" >
                     <option value="">Doktor Seçiniz...</option>
                     @if(Model.DoktorList is not null)
@@ -73,14 +73,14 @@
                 <select asp-for="HastaID" class ="form-control"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Randevu Oluştur" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="RandevuListele">Randevulara geri dön</a>
 </div>
 
 

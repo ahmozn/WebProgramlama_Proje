@@ -20,7 +20,7 @@
                 <span asp-validation-for="KullaniciTipi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AnadalID" class="control-label"></label>
+                <label asp-for="AnadalID" class="control-label">Anadal</label>
                 <select asp-for="AnadalID" class="form-control">
                     <option value="">Anadal Seçiniz...</option>
                     @if (Model.AnadalList == null)
@@ -38,7 +38,7 @@
                 <span asp-validation-for="AnadalID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Doktor.DoktorDerece" class="control-label"></label>
+                <label asp-for="Doktor.DoktorDerece" class="control-label">Uzmanlık Derecesi</label>
                 <select asp-for="Doktor.DoktorDerece" class="form-control">
                     <option value="">Uzmanlık Seçiniz...</option>
                     <option value="prof">Prof</option>

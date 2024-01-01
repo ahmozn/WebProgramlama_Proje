@@ -430,7 +430,7 @@ namespace webProgProje.Controllers
                 TempData["admin_randevuMesaj"] = "geçerli randevu giriniz";
                 return View("AdminRandevuMesaj");
             }
-            if(randevu.Durum==true)
+            if(randevu.Durum==false||randevu.HastaID!=null)
             {
                 TempData["admin_randevuMesaj"] = "randevu durumu AKTİF. Önce inaktif hale getiriniz.";
                 return View("AdminRandevuMesaj");
