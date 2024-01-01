@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<webProgProje.Models.Randevu>
 
 @{
-    ViewData["Title"] = "RandevuListele";
+    TempData["Title"] = "RandevuListele";
 }
-@if (ViewData["admin_randevuMesaj"]is not null)
+@if (TempData["admin_randevuMesaj"]is not null)
 {
-    <h3 class="text-success">@ViewData["admin_randevuMesaj"]</h3>
+    <h3 class="text-success">@TempData["admin_randevuMesaj"]</h3>
 }
 <h1>RandevuListele</h1>
 

@@ -71,7 +71,7 @@ namespace webProgProje.Controllers
                     return RedirectToActionPermanent("Index", "Admin");
                 }
             }
-            ViewData["hata"] = "kullanıcı adı veya şifre hatalı";
+            TempData["hata"] = "kullanıcı adı veya şifre hatalı";
             return RedirectToAction("LoginPage");
         }
 
@@ -85,7 +85,7 @@ namespace webProgProje.Controllers
         {
             if (k.Telefon.StartsWith("05") != true)
             {
-                ViewData["signup"] = "Telefon numaranızı kontrol ediniz.";
+                TempData["signup"] = "Telefon numaranızı kontrol ediniz.";
                 return RedirectToAction("Signup");
             }
             Hasta h = new Hasta();
@@ -102,16 +102,16 @@ namespace webProgProje.Controllers
                     _combineContext.SaveChanges();
                     _combineContext.Hastalar.Add(h);
                     _combineContext.SaveChanges();
-                    ViewData["signup"] = valid;
+                    TempData["signup"] = valid;
                     return RedirectToAction("Hesap","Hasta");
                 }
                 else
                 {
-                    ViewData["signup"] = hata2;
+                    TempData["signup"] = hata2;
                     return RedirectToAction("Signup");
                 }
             }
-            ViewData["signup"] = hata;
+            TempData["signup"] = hata;
             return RedirectToAction("Anasayfa");
         }
 
@@ -129,7 +129,7 @@ namespace webProgProje.Controllers
             //identity yonlendirme
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                ViewData["msj"] = "Lütfen giriş yapınız.";
+                TempData["msj"] = "Lütfen giriş yapınız.";
                 return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
             return RedirectToAction("RandevuAl","Hasta");

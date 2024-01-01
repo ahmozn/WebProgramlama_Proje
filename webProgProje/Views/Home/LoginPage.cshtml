@@ -1,15 +1,15 @@
 ﻿@model webProgProje.Models.Kullanici
 
 @{
-    ViewData["Title"] = "Login";
+    TempData["Title"] = "Login";
 }
-@if(ViewData["hata"] is not null)
+@if(TempData["hata"] is not null)
 {
-    <div class="alert alert-danger">@ViewData["hata"]</div>
+    <div class="alert alert-danger">@TempData["hata"]</div>
 }
-@if(ViewData["msj"] is not null)
+@if(TempData["msj"] is not null)
 {
-    <div class="alert alert-danger">@ViewData["msj"]</div>
+    <div class="alert alert-danger">@TempData["msj"]</div>
 }
 <h1>Giriş Yap</h1>
 

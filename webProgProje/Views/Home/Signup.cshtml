@@ -1,8 +1,8 @@
 ﻿@model webProgProje.Models.Kullanici
 
-@if(ViewData["signup"]is not null)
+@if(TempData["signup"]is not null)
 {
-    <div class="alert alert-danger">@ViewData["signup"]</div>
+    <div class="alert alert-danger">@TempData["signup"]</div>
 }
 
 

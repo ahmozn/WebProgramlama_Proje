@@ -155,7 +155,7 @@ namespace webProgProje.Areas.Identity.Pages.Account
                 hasta.Id = user.Id;
                 if (user.Telefon.StartsWith("05") != true)
                 {
-                    ViewData["registerPhoneError"] = "Telefon numaranızı kontrol ediniz.";
+                    TempData["registerPhoneError"] = "Telefon numaranızı kontrol ediniz.";
                     return Page();
                 }
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
